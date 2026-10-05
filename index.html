@@ -62,6 +62,23 @@
   .pay{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
   .pay span{background:#fff;color:#222;padding:4px 10px;border-radius:5px;font-size:12px;font-weight:700}
   .note{border-top:1px solid #333;margin-top:28px;padding-top:14px;font-size:12px;color:#999}
+  .announce a{text-decoration:underline}
+  .track{display:grid;grid-template-columns:2fr 1fr;gap:20px;margin:48px 0 0;scroll-margin-top:110px}
+  .track>div{background:var(--soft);border-radius:14px;padding:26px}
+  .track h2{font-size:24px;margin-bottom:6px}
+  .track p{color:var(--muted);margin-bottom:14px;font-size:14px}
+  .track form{display:flex;gap:10px;flex-wrap:wrap}
+  .track input{flex:1;min-width:180px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;font-size:15px;text-transform:uppercase}
+  #trackResult{margin-top:14px;font-size:14px}
+  #trackResult .ok{background:#fff;border-left:4px solid var(--green);border-radius:8px;padding:12px 14px}
+  #trackResult .err{color:#b3261e}
+  .voice{background:var(--green)!important;color:#fff}
+  .voice p{color:#e6f2e6}
+  .voice .btn{background:#fff;color:var(--green)}
+  .call-fab{position:fixed;right:18px;bottom:18px;background:var(--green);color:#fff;padding:12px 18px;border-radius:30px;font-weight:700;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.25);z-index:20;display:flex;gap:6px;align-items:center}
+  .call-fab:hover{filter:brightness(1.1)}
+  footer a:hover{color:#fff}
+  @media(max-width:768px){.track{grid-template-columns:1fr}.call-fab span{display:none}.call-fab{padding:14px;font-size:18px}}
   #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:#222;color:#fff;padding:10px 18px;border-radius:8px;transition:.3s;font-size:14px}
   #toast.show{transform:translateX(-50%) translateY(0)}
   @media(max-width:1024px){.grid{grid-template-columns:repeat(3,1fr)}.trust{grid-template-columns:repeat(2,1fr)}}
@@ -81,7 +98,7 @@
 </style>
 </head>
 <body>
-<div class="announce">FREE Shipping on orders above ₹399</div>
+<div class="announce">FREE Shipping on orders above ₹399 &nbsp;|&nbsp; 📞 Talk to our voice agent: <a href="tel:+13027542049"><b>+1 (302) 754 2049</b></a></div>
 
 <header>
   <div class="wrap top">
@@ -89,7 +106,8 @@
     <a href="/" class="logo"><i>m</i>Sample Store</a>
     <form class="search" onsubmit="return false"><input type="search" placeholder="Search for products" aria-label="Search"></form>
     <div class="actions">
-      <a class="hide-m" href="#">Track Order</a>
+      <a class="hide-m" href="tel:+13027542049">📞 Call</a>
+      <a href="#track">Track Order</a>
       <a class="hide-m" href="#">Login</a>
       <a class="cart" href="#">Cart<sup id="cartCount">0</sup></a>
     </div>
@@ -115,7 +133,26 @@
 
   <h2 class="section" id="products">Best Sellers</h2>
   <div class="grid" id="grid"></div>
+
+  <section class="track" id="track">
+    <div>
+      <h2>Track your order</h2>
+      <p>Enter your order ID (for example <b>ME1001</b>) to see the latest status.</p>
+      <form id="trackForm">
+        <input id="orderRef" placeholder="Order ID" aria-label="Order ID" required>
+        <button class="btn" type="submit">Track</button>
+      </form>
+      <div id="trackResult" role="status" aria-live="polite"></div>
+    </div>
+    <div class="voice">
+      <h3>📞 Prefer to talk?</h3>
+      <p>Call our voice agent for order help, product advice and returns.</p>
+      <a class="btn" href="tel:+13027542049">+1 (302) 754 2049</a>
+    </div>
+  </section>
 </main>
+
+<a class="call-fab" href="tel:+13027542049" aria-label="Call voice agent +1 302 754 2049">📞 <span>Call voice agent</span></a>
 
 <footer>
   <div class="wrap">
@@ -123,7 +160,7 @@
       <div><h4>About</h4><p>Layout mockup generated from a structural analysis of a Shopify storefront. Placeholder content only.</p>
         <div class="pay"><span>VISA</span><span>MasterCard</span><span>UPI</span><span>RuPay</span><span>COD</span></div></div>
       <div><h4>Shop</h4><ul><li>Face Care</li><li>Hair Care</li><li>Body Care</li><li>Baby Care</li></ul></div>
-      <div><h4>Help</h4><ul><li>Track Order</li><li>Returns / Replacement</li><li>FAQs</li><li>Contact</li></ul></div>
+      <div><h4>Help</h4><ul><li><a href="#track">Track Order</a></li><li>Returns / Replacement</li><li>FAQs</li><li><a href="tel:+13027542049">Voice agent: +1 (302) 754 2049</a></li></ul></div>
       <div><h4>Follow</h4><ul><li>Instagram</li><li>Facebook</li><li>YouTube</li><li>Get the App</li></ul></div>
     </div>
     <div class="note">Unofficial local preview. Not affiliated with any brand. Images are emoji/gradient placeholders.</div>
@@ -131,6 +168,7 @@
 </footer>
 <div id="toast"></div>
 
+<script src="config.js"></script>
 <script>
   const products=[
     ["Rice Dewy Bright Face Wash with Rice Water & Niacinamide",359,449,"3 mama.jpg"],
@@ -157,6 +195,28 @@
     document.getElementById('cartCount').textContent=++count;
     toast.textContent='Added: '+products[b.dataset.i][0];toast.classList.add('show');
     setTimeout(()=>toast.classList.remove('show'),1500);
+  });
+
+  // Order tracking via Supabase RPC (see supabase.sql)
+  document.getElementById('trackForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const out=document.getElementById('trackResult'),ref=document.getElementById('orderRef').value.trim();
+    const c=window.APP_CONFIG||{};
+    const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    out.innerHTML='Checking…';
+    try{
+      const r=await fetch(c.SUPABASE_URL+'/rest/v1/rpc/track_order',{method:'POST',
+        headers:{'Content-Type':'application/json',apikey:c.SUPABASE_ANON_KEY,Authorization:'Bearer '+c.SUPABASE_ANON_KEY},
+        body:JSON.stringify({p_ref:ref})});
+      if(!r.ok)throw new Error('lookup failed');
+      const rows=await r.json();
+      if(!rows.length){out.innerHTML='<span class="err">No order found for “'+esc(ref)+'”. Check the ID or call us at +1 (302) 754 2049.</span>';return;}
+      const o=rows[0];
+      out.innerHTML='<div class="ok"><b>Order '+esc(o.order_ref)+'</b><br>Status: <b>'+esc(o.status)+'</b>'+
+        (o.items?'<br>Items: '+esc(o.items):'')+(o.eta?'<br>Expected: '+esc(o.eta):'')+'</div>';
+    }catch(err){
+      out.innerHTML='<span class="err">Tracking is unavailable right now. Please call +1 (302) 754 2049.</span>';
+    }
   });
 </script>
 </body>
