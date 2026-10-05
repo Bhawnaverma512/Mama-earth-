@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Natural Skin & Hair Care Products – Local Preview</title>
+<meta name="description" content="Local layout mockup based on a storefront structure analysis. Not the official site.">
+<style>
+  :root{--orange:#f37021;--green:#2f7d32;--ink:#1d1d1b;--muted:#6b6b6b;--line:#e8e8e8;--bg:#fff;--soft:#faf6f0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.45}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 16px}
+  .announce{background:var(--green);color:#fff;text-align:center;font-size:13px;padding:8px 16px}
+  header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:10}
+  .top{display:flex;align-items:center;gap:20px;padding:12px 0}
+  .logo{font-weight:800;font-size:26px;color:var(--green);letter-spacing:-.5px;display:flex;align-items:center;gap:8px}
+  .logo i{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--orange);color:#fff;font-style:normal;font-size:20px}
+  .search{flex:1;max-width:520px}
+  .search input{width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:#f6f6f6}
+  .actions{margin-left:auto;display:flex;gap:18px;font-size:14px;align-items:center}
+  .cart sup{background:var(--orange);color:#fff;border-radius:10px;padding:1px 6px;margin-left:2px;font-size:11px}
+  .burger{display:none;background:none;border:0;font-size:24px;cursor:pointer}
+  nav.main-nav{border-top:1px solid var(--line)}
+  nav.main-nav ul{list-style:none;display:flex;gap:26px;padding:10px 0;font-size:14px;font-weight:600;overflow-x:auto;white-space:nowrap}
+  nav.main-nav li:hover{color:var(--orange)}
+  .hero{margin:18px auto}
+  .hero-img{display:block;border-radius:14px;overflow:hidden}
+  .hero-img img{width:100%;height:auto;display:block}
+  .banner{border-radius:14px;min-height:340px;display:flex;align-items:center;padding:40px 56px;
+    background:linear-gradient(110deg,#fde7cf 0%,#fbd0a1 45%,#9fd3a3 100%);position:relative;overflow:hidden}
+  .banner h1{font-size:44px;line-height:1.1;max-width:520px}
+  .banner p{margin:12px 0 22px;color:#444;max-width:440px}
+  .btn{display:inline-block;background:var(--orange);color:#fff;border:0;padding:12px 26px;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px}
+  .btn:hover{filter:brightness(.93)}
+  .blob{position:absolute;right:6%;top:50%;transform:translateY(-50%);width:260px;height:260px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%,#fff 0,#ffd9a8 40%,#f37021 100%);opacity:.9}
+  .trust{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:26px 0}
+  .trust div{display:flex;align-items:center;gap:12px;background:var(--soft);padding:14px;border-radius:10px;font-size:13px}
+  .trust b{display:block;font-size:14px}
+  .ico{width:46px;height:46px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:22px;flex:none}
+  h2.section{font-size:26px;margin:36px 0 16px}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .product-card{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;background:#fff;transition:box-shadow .2s}
+  .product-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.08)}
+  .pimg{aspect-ratio:4/5;border-radius:8px;overflow:hidden;background:#f6f1ea}
+  .pimg img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+  .product-card:hover .pimg img{transform:scale(1.04)}
+  .product-card h3{font-size:14px;font-weight:600;min-height:40px}
+  .rating{font-size:12px;color:var(--muted)}
+  .rating span{color:#f5a623}
+  .price{font-weight:800}
+  .price .old-price{color:var(--muted);text-decoration:line-through;font-weight:400;margin:0 6px}
+  .price em{color:var(--green);font-style:normal;font-size:12px}
+  .product-card button{margin-top:auto;width:100%;padding:10px;border-radius:8px;border:1.5px solid var(--orange);background:#fff;color:var(--orange);font-weight:700;cursor:pointer}
+  .product-card button:hover{background:var(--orange);color:#fff}
+  footer{background:#1d1d1b;color:#ddd;margin-top:60px;padding:40px 0 20px;font-size:14px}
+  .fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:28px}
+  footer h4{color:#fff;margin-bottom:10px}
+  footer li{list-style:none;margin:6px 0;color:#bbb}
+  .pay{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+  .pay span{background:#fff;color:#222;padding:4px 10px;border-radius:5px;font-size:12px;font-weight:700}
+  .note{border-top:1px solid #333;margin-top:28px;padding-top:14px;font-size:12px;color:#999}
+  #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:#222;color:#fff;padding:10px 18px;border-radius:8px;transition:.3s;font-size:14px}
+  #toast.show{transform:translateX(-50%) translateY(0)}
+  @media(max-width:1024px){.grid{grid-template-columns:repeat(3,1fr)}.trust{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:768px){
+    .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+    .burger{display:block}
+    .search{order:3;flex-basis:100%;max-width:none}
+    .top{flex-wrap:wrap;gap:10px}
+    .actions .hide-m{display:none}
+    nav.main-nav{display:none}
+    nav.main-nav.open{display:block}
+    nav.main-nav ul{flex-direction:column;gap:0}
+    nav.main-nav li{padding:12px 0;border-bottom:1px solid var(--line)}
+    .banner{padding:28px 22px;min-height:260px}.banner h1{font-size:30px}.blob{display:none}
+    .fgrid{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+<div class="announce">FREE Shipping on orders above ₹399</div>
+
+<header>
+  <div class="wrap top">
+    <button class="burger" aria-label="Menu" onclick="document.querySelector('.main-nav').classList.toggle('open')">☰</button>
+    <a href="/" class="logo"><i>m</i>Sample Store</a>
+    <form class="search" onsubmit="return false"><input type="search" placeholder="Search for products" aria-label="Search"></form>
+    <div class="actions">
+      <a class="hide-m" href="#">Track Order</a>
+      <a class="hide-m" href="#">Login</a>
+      <a class="cart" href="#">Cart<sup id="cartCount">0</sup></a>
+    </div>
+  </div>
+  <nav class="main-nav"><div class="wrap"><ul>
+    <li>All Categories</li><li>Face Care</li><li>Hair Care</li><li>Body Care</li><li>Baby Care</li><li>Combos</li><li>Best Sellers</li><li>New Launches</li>
+  </ul></div></nav>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <a href="#products" class="hero-img" aria-label="Shop now">
+      <img src="hero.webp" alt="Natural Care | Safe Ingredients | Healthier You – Shop Now" width="1671" height="941">
+    </a>
+  </section>
+
+  <section class="trust">
+    <div><span class="ico">🚚</span><span><b>Free Shipping</b>Orders above ₹399</span></div>
+    <div><span class="ico">↩️</span><span><b>Easy Return</b>7-day replacement</span></div>
+    <div><span class="ico">🌿</span><span><b>Toxin-Free</b>Dermatologically tested</span></div>
+    <div><span class="ico">💳</span><span><b>Secure Payment</b>UPI, cards, COD</span></div>
+  </section>
+
+  <h2 class="section" id="products">Best Sellers</h2>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div><h4>About</h4><p>Layout mockup generated from a structural analysis of a Shopify storefront. Placeholder content only.</p>
+        <div class="pay"><span>VISA</span><span>MasterCard</span><span>UPI</span><span>RuPay</span><span>COD</span></div></div>
+      <div><h4>Shop</h4><ul><li>Face Care</li><li>Hair Care</li><li>Body Care</li><li>Baby Care</li></ul></div>
+      <div><h4>Help</h4><ul><li>Track Order</li><li>Returns / Replacement</li><li>FAQs</li><li>Contact</li></ul></div>
+      <div><h4>Follow</h4><ul><li>Instagram</li><li>Facebook</li><li>YouTube</li><li>Get the App</li></ul></div>
+    </div>
+    <div class="note">Unofficial local preview. Not affiliated with any brand. Images are emoji/gradient placeholders.</div>
+  </div>
+</footer>
+<div id="toast"></div>
+
+<script>
+  const products=[
+    ["Rice Dewy Bright Face Wash with Rice Water & Niacinamide",359,449,"3 mama.jpg"],
+    ["Onion Hair Oil for Hair Fall Control – 150 ml",399,499,"mama.jpg"],
+    ["Vitamin C Daily Glow Face Serum – 30 ml",479,599,"2 mama.jpg"],
+    ["Ubtan Natural Glow Face Wash with Turmeric & Saffron",269,299,"4 mama.jpg"],
+    ["Tea Tree Spot Gel Face Cream – 15 g",299,349,"5 mama.jpg"],
+    ["Aloe Vera Gel with Vitamin E for Skin & Hair",349,499,"6 mama.jpg"],
+    ["Onion Shampoo with Plant Keratin – 400 ml",329,399,"7mama.jpg"],
+    ["Rose Body Lotion with Rose Water & Milk – 400 ml",499,599,"8mama.jpg"]
+  ];
+  const grid=document.getElementById('grid');
+  grid.innerHTML=products.map((p,i)=>{
+    const off=Math.round((1-p[1]/p[2])*100);
+    return `<article class="product-card">
+      <a href="#"><div class="pimg"><img src="${encodeURI(p[3])}" alt="${p[0].replace(/"/g,'&quot;')}" loading="lazy"></div></a>
+      <h3><a href="#">${p[0]}</a></h3>
+      <div class="rating"><span>★★★★★</span> 4.${5+(i%4)} (${(i+3)*312} reviews)</div>
+      <p class="price">₹${p[1]}<span class="old-price">₹${p[2]}</span><em>${off}% OFF</em></p>
+      <button type="button" data-i="${i}">Add to cart</button></article>`;}).join('');
+  let count=0;const toast=document.getElementById('toast');
+  grid.addEventListener('click',e=>{
+    const b=e.target.closest('button');if(!b)return;
+    document.getElementById('cartCount').textContent=++count;
+    toast.textContent='Added: '+products[b.dataset.i][0];toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),1500);
+  });
+</script>
+</body>
+</html>
